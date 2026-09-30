@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Насколько я готов работать с медиа и ИИ?</title>
+<style>
+:root{
+  --bg:#eef2f6;
+  --ink:#111827;
+  --muted:#667085;
+  --line:rgba(15,23,42,.10);
+  --glass:rgba(255,255,255,.72);
+  --shadow:0 24px 60px rgba(15,23,42,.12), 0 8px 22px rgba(15,23,42,.06);
+  --radius:28px;
+
+  --c1:#6f7f67; --c1b:#dfe8dc;
+  --c2:#b06c52; --c2b:#f3e4dc;
+  --c3:#58738d; --c3b:#e1eaf1;
+  --c4:#7a638a; --c4b:#ebe2ef;
+  --c5:#a9782f; --c5b:#f4e9d2;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255,255,255,.96), transparent 28%),
+    radial-gradient(circle at 86% 18%, rgba(195,215,235,.48), transparent 26%),
+    radial-gradient(circle at 82% 82%, rgba(232,215,190,.38), transparent 28%),
+    linear-gradient(145deg,#e8edf3,#f6f8fa 48%,#e7ebef);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+body::before, body::after{
+  content:"";
+  position:fixed;
+  z-index:-2;
+  border-radius:50%;
+  filter:blur(4px);
+  opacity:.65;
+}
+body::before{
+  width:420px;height:420px;
+  left:-120px;top:90px;
+  background:radial-gradient(circle at 35% 35%,#fff 0 10%,#a9c2d8 42%,#8197ab 75%,transparent 76%);
+  box-shadow:inset -35px -40px 70px rgba(51,65,85,.22), 0 50px 90px rgba(80,103,125,.18);
+}
+body::after{
+  width:340px;height:340px;
+  right:-110px;bottom:90px;
+  background:radial-gradient(circle at 35% 35%,#fff 0 9%,#e4cdb4 40%,#b99e7d 76%,transparent 77%);
+  box-shadow:inset -30px -34px 65px rgba(95,73,45,.18),0 45px 90px rgba(111,83,50,.15);
+}
+
+.noise{
+  position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.08;
+  background-image:
+    radial-gradient(rgba(0,0,0,.7) .45px, transparent .55px);
+  background-size:6px 6px;
+  mix-blend-mode:multiply;
+}
+
+.wrap{width:min(1180px,calc(100% - 28px)); margin:0 auto; padding:44px 0 80px}
+
+.hero{
+  position:relative;
+  padding:58px 58px 42px;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:34px;
+  background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(255,255,255,.58));
+  backdrop-filter:blur(20px) saturate(120%);
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.92);
+  overflow:hidden;
+  transform-style:preserve-3d;
+}
+.hero::after{
+  content:"";
+  position:absolute; width:290px;height:290px; right:-40px;top:-75px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,#fff 0 6%,#d4e5f4 28%,#94abc1 67%,#667d92 100%);
+  box-shadow:inset -35px -30px 58px rgba(26,43,59,.20),0 28px 55px rgba(65,89,110,.20);
+  opacity:.86;
+}
+.eyebrow{
+  position:relative; z-index:2;
+  display:inline-flex;align-items:center;gap:12px;
+  text-transform:uppercase;letter-spacing:.16em;
+  font-weight:800;font-size:13px;color:#475467;
+}
+.eyebrow::before{content:"";width:34px;height:2px;background:#475467;border-radius:3px}
+h1{
+  position:relative; z-index:2;
+  max-width:850px;
+  margin:18px 0 18px;
+  font-size:clamp(42px,6vw,78px);
+  line-height:.98;
+  letter-spacing:-.045em;
+}
+.hero p{
+  position:relative; z-index:2;
+  max-width:760px;
+  margin:0;
+  color:#475467;
+  font-size:20px;
+  line-height:1.55;
+}
+.scale{
+  position:relative; z-index:2;
+  margin-top:28px;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;
+  max-width:760px;
+}
+.scale div{
+  padding:14px 14px 13px;
+  border-radius:16px;
+  background:rgba(255,255,255,.7);
+  border:1px solid rgba(15,23,42,.08);
+  box-shadow:0 6px 16px rgba(15,23,42,.05), inset 0 1px 0 rgba(255,255,255,.95);
+  font-size:13px;color:#475467
+}
+.scale b{display:block;color:#111827;font-size:17px;margin-bottom:3px}
+
+.progress-shell{
+  margin:22px 2px 0;height:10px;background:rgba(255,255,255,.66);
+  border:1px solid rgba(15,23,42,.07);
+  border-radius:999px;overflow:hidden;
+  box-shadow:inset 0 2px 4px rgba(15,23,42,.06)
+}
+.progress{height:100%;width:0;background:linear-gradient(90deg,#78906e,#7b8ca3,#a27b5a);transition:width .35s ease}
+
+.section-card{
+  --accent:#667085; --soft:#eef1f4;
+  margin-top:28px;
+  position:relative;
+  border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,.78);
+  background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,255,255,.62));
+  backdrop-filter:blur(18px) saturate(116%);
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.9);
+  overflow:hidden;
+  transform-style:preserve-3d;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.card-inner{padding:36px 38px 34px}
+.card-head{
+  display:grid;grid-template-columns:88px 1fr auto;gap:18px;align-items:center;
+  padding-bottom:26px;border-bottom:1px solid var(--line)
+}
+.badge3d{
+  width:74px;height:74px;border-radius:24px;
+  display:grid;place-items:center;
+  font-size:34px;font-weight:900;color:#fff;
+  background:
+    radial-gradient(circle at 30% 22%,rgba(255,255,255,.95) 0 5%,transparent 6%),
+    linear-gradient(145deg,color-mix(in srgb,var(--accent) 75%,#fff 25%),var(--accent));
+  box-shadow:
+    inset -10px -13px 18px rgba(18,31,29,.14),
+    inset 6px 7px 13px rgba(255,255,255,.22),
+    0 15px 24px color-mix(in srgb,var(--accent) 24%, transparent);
+  transform:translateZ(22px);
+}
+.card-head small{
+  display:block;font-size:12px;font-weight:800;letter-spacing:.14em;
+  color:var(--accent);text-transform:uppercase;margin-bottom:5px
+}
+.card-head h2{
+  margin:0;font-size:31px;letter-spacing:-.025em;line-height:1.05
+}
+.card-chip{
+  align-self:start;
+  background:var(--soft); color:var(--accent);
+  padding:9px 13px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.08em;
+  border:1px solid rgba(15,23,42,.06)
+}
+.questions{margin-top:10px}
+.q{
+  display:grid;grid-template-columns:1fr 224px;gap:22px;align-items:center;
+  padding:22px 0;border-bottom:1px solid var(--line)
+}
+.q:last-child{border-bottom:none}
+.qtext{font-size:18px;line-height:1.45;color:#1f2937}
+.qtext span{
+  display:inline-grid;place-items:center;
+  width:30px;height:30px;border-radius:10px;
+  margin-right:10px;background:var(--soft);color:var(--accent);font-size:13px;font-weight:900;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9)
+}
+.choices{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.choice{
+  position:relative;cursor:pointer;user-select:none;
+}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice label{
+  display:grid;place-items:center;
+  min-height:48px;border-radius:14px;
+  font-size:15px;font-weight:800;color:#475467;
+  background:linear-gradient(145deg,#fff,#eef1f4);
+  border:1px solid rgba(15,23,42,.09);
+  box-shadow:0 6px 12px rgba(15,23,42,.05), inset 0 1px 0 #fff;
+  transition:.18s ease;
+}
+.choice input:checked + label{
+  color:white;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 83%,#fff 17%),var(--accent));
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 10px 20px color-mix(in srgb,var(--accent) 25%,transparent), inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+.legend-row{
+  display:flex;justify-content:space-between;align-items:center;
+  color:#98a2b3;font-size:12px;margin-top:6px;padding:0 2px
+}
+
+.summary{
+  margin-top:34px;
+  padding:38px;
+  border-radius:32px;
+  background:linear-gradient(145deg,#111827,#1f2b3b 58%,#26364a);
+  color:white;
+  box-shadow:0 28px 64px rgba(15,23,42,.25), inset 0 1px 0 rgba(255,255,255,.12);
+  position:relative;overflow:hidden;
+}
+.summary::after{
+  content:"";position:absolute;width:310px;height:310px;border-radius:50%;right:-90px;top:-110px;
+  background:radial-gradient(circle at 32% 28%,#fff 0 4%,#9bb0c5 23%,#60778e 55%,#40576c 100%);
+  opacity:.20;box-shadow:inset -30px -35px 55px rgba(0,0,0,.28)
+}
+.summary h2{position:relative;z-index:2;margin:0;font-size:38px;letter-spacing:-.03em}
+.summary .intro{position:relative;z-index:2;color:#cbd5e1;max-width:760px;font-size:17px;line-height:1.55;margin:10px 0 0}
+.locked{
+  position:relative;z-index:2;margin-top:24px;padding:20px 22px;border:1px dashed rgba(255,255,255,.25);
+  border-radius:18px;color:#cbd5e1;background:rgba(255,255,255,.06)
+}
+.results{display:none;position:relative;z-index:2;margin-top:26px}
+.result-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.result{
+  min-height:150px;padding:18px;border-radius:20px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12)
+}
+.result .name{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#cbd5e1;min-height:34px}
+.result .score{font-size:34px;font-weight:900;margin-top:12px}
+.result .level{font-size:13px;color:#e2e8f0;margin-top:4px}
+.recs{margin-top:18px;display:grid;gap:12px}
+.rec{
+  padding:20px 22px;border-radius:18px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10)
+}
+.rec strong{display:block;font-size:17px;margin-bottom:7px}
+.rec p{margin:0;color:#d5dde7;line-height:1.5;font-size:15px}
+.total{
+  margin-top:18px;padding:20px 22px;border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.13),rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.12)
+}
+.total b{font-size:24px}
+.final-note{color:#cbd5e1;font-size:14px;margin-top:8px;line-height:1.5}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{
+  appearance:none;border:none;cursor:pointer;border-radius:14px;padding:12px 16px;font-weight:800;font-size:14px
+}
+.btn.light{background:#fff;color:#162033}
+.btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.16)}
+
+.c1{--accent:var(--c1);--soft:var(--c1b)}
+.c2{--accent:var(--c2);--soft:var(--c2b)}
+.c3{--accent:var(--c3);--soft:var(--c3b)}
+.c4{--accent:var(--c4);--soft:var(--c4b)}
+.c5{--accent:var(--c5);--soft:var(--c5b)}
+
+@media (max-width:900px){
+  .hero{padding:36px 28px}.hero::after{width:220px;height:220px;right:-80px;top:-55px}
+  .scale{grid-template-columns:1fr 1fr}
+  .card-inner{padding:28px 22px}
+  .card-head{grid-template-columns:70px 1fr}.card-chip{grid-column:2}
+  .q{grid-template-columns:1fr}
+  .choices{max-width:320px}
+  .result-grid{grid-template-columns:1fr}
+  .summary{padding:28px 22px}
+}
+@media (max-width:560px){
+  .wrap{width:min(100% - 16px,1180px);padding-top:12px}
+  .hero{border-radius:24px}
+  h1{font-size:42px}
+  .hero p{font-size:17px}
+  .scale{grid-template-columns:1fr}
+  .card-head h2{font-size:25px}
+  .qtext{font-size:17px}
+}
+@media print{
+  body{background:white}
+  body::before,body::after,.noise{display:none}
+  .wrap{width:100%;padding:0}
+  .hero,.section-card,.summary{box-shadow:none;backdrop-filter:none;break-inside:avoid}
+  .section-card{page-break-inside:avoid}
+  .actions{display:none}
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Мини-диагностика для педагога</div>
+    <h1>Насколько я готов работать с медиа и ИИ?</h1>
+    <p>20 утверждений по пяти направлениям. Отвечайте не «как правильно», а как вы обычно действуете на практике. На каждый вопрос выбирайте один вариант ответа:</p>
+    <div class="scale">
+      <div><b>1</b>Пока почти не делаю</div>
+      <div><b>2</b>Делаю иногда</div>
+      <div><b>3</b>Обычно делаю осознанно</div>
+      <div><b>4</b>Делаю уверенно и системно</div>
+    </div>
+    <div class="progress-shell"><div class="progress" id="progress"></div></div>
+  </section>
+
+  <form id="diag">
+    <section class="section-card c1" data-area="use">
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="badge3d">01</div>
+          <div><small>Компетенция</small><h2>Найти и использовать</h2></div>
+          <div class="card-chip">4 вопроса</div>
+        </div>
+        <div class="questions">
+          <div class="q"><div class="qtext"><span>1</span>Перед использованием ИИ я сначала определяю, какую задачу хочу решить, а уже потом выбираю инструмент.</div><div class="choices" data-q="q1"></div></div>
+          <div class="q"><div class="qtext"><span>2</span>Я умею выбирать между поисковой системой, ИИ, научной базой, официальным источником или другим инструментом в зависимости от задачи.</div><div class="choices" data-q="q2"></div></div>
+          <div class="q"><div class="qtext"><span>3</span>Я умею формулировать и уточнять запрос к ИИ так, чтобы получить результат, соответствующий моей цели.</div><div class="choices" data-q="q3"></div></div>
+          <div class="q"><div class="qtext"><span>4</span>Перед загрузкой текста, файла, изображения или других данных в сервис я задумываюсь, какую информацию передаю и действительно ли это необходимо.</div><div class="choices" data-q="q4"></div></div>
+        </div>
+        <div class="legend-row"><span>редко / не уверен(а)</span><span>уверенно / системно</span></div>
+      </div>
+    </section>
+
+    <section class="section-card c2" data-area="check">
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="badge3d">02</div>
+          <div><small>Компетенция</small><h2>Понять и проверить</h2></div>
+          <div class="card-chip">4 вопроса</div>
+        </div>
+        <div class="questions">
+          <div class="q"><div class="qtext"><span>5</span>Читая ответ ИИ, я различаю проверяемые факты, интерпретации, оценки и предположения.</div><div class="choices" data-q="q5"></div></div>
+          <div class="q"><div class="qtext"><span>6</span>Я не принимаю уверенный ответ ИИ за достоверный только потому, что он выглядит убедительно.</div><div class="choices" data-q="q6"></div></div>
+          <div class="q"><div class="qtext"><span>7</span>Если ИИ приводит важный факт, цифру, цитату или исследование, я умею найти и проверить первоисточник.</div><div class="choices" data-q="q7"></div></div>
+          <div class="q"><div class="qtext"><span>8</span>При оценке информации я спрашиваю не только «правда ли это?», но и кто это создал, зачем, на каких основаниях и чего здесь может не хватать.</div><div class="choices" data-q="q8"></div></div>
+        </div>
+        <div class="legend-row"><span>редко / не уверен(а)</span><span>уверенно / системно</span></div>
+      </div>
+    </section>
+
+    <section class="section-card c3" data-area="interact">
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="badge3d">03</div>
+          <div><small>Компетенция</small><h2>Взаимодействовать</h2></div>
+          <div class="card-chip">4 вопроса</div>
+        </div>
+        <div class="questions">
+          <div class="q"><div class="qtext"><span>9</span>Я понимаю, что алгоритмы рекомендаций и персонализация влияют на то, какую информацию вижу я и мои учащиеся.</div><div class="choices" data-q="q9"></div></div>
+          <div class="q"><div class="qtext"><span>10</span>При работе с ИИ в группе я могу определить, что стоит поручить технологии, а что должны обсудить и решить люди.</div><div class="choices" data-q="q10"></div></div>
+          <div class="q"><div class="qtext"><span>11</span>Я умею организовать работу так, чтобы ИИ поддерживал сотрудничество учащихся, а не заменял обсуждение и вклад участников.</div><div class="choices" data-q="q11"></div></div>
+          <div class="q"><div class="qtext"><span>12</span>В цифровом взаимодействии я стараюсь учитывать разные точки зрения и замечать ситуации, когда информационная среда становится слишком односторонней.</div><div class="choices" data-q="q12"></div></div>
+        </div>
+        <div class="legend-row"><span>редко / не уверен(а)</span><span>уверенно / системно</span></div>
+      </div>
+    </section>
+
+    <section class="section-card c4" data-area="create">
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="badge3d">04</div>
+          <div><small>Компетенция</small><h2>Создать</h2></div>
+          <div class="card-chip">4 вопроса</div>
+        </div>
+        <div class="questions">
+          <div class="q"><div class="qtext"><span>13</span>Используя ИИ для создания материала, я могу ясно сказать, для кого и для чего создаю результат.</div><div class="choices" data-q="q13"></div></div>
+          <div class="q"><div class="qtext"><span>14</span>Я не ограничиваюсь первым результатом генерации: оцениваю его, редактирую, дополняю и перерабатываю.</div><div class="choices" data-q="q14"></div></div>
+          <div class="q"><div class="qtext"><span>15</span>Я могу объяснить, что в итоговом продукте является моим решением и вкладом, а что предложено ИИ.</div><div class="choices" data-q="q15"></div></div>
+          <div class="q"><div class="qtext"><span>16</span>Создавая материал с ИИ, я думаю о том, нужно ли сообщить аудитории об использовании генеративных инструментов или синтетического контента.</div><div class="choices" data-q="q16"></div></div>
+        </div>
+        <div class="legend-row"><span>редко / не уверен(а)</span><span>уверенно / системно</span></div>
+      </div>
+    </section>
+
+    <section class="section-card c5" data-area="ethics">
+      <div class="card-inner">
+        <div class="card-head">
+          <div class="badge3d">05</div>
+          <div><small>Компетенция</small><h2>Оценить последствия</h2></div>
+          <div class="card-chip">4 вопроса</div>
+        </div>
+        <div class="questions">
+          <div class="q"><div class="qtext"><span>17</span>Перед использованием ИИ я думаю не только о пользе, но и о возможных последствиях для учащихся и других людей.</div><div class="choices" data-q="q17"></div></div>
+          <div class="q"><div class="qtext"><span>18</span>Я обращаю внимание на приватность, персональные данные и согласие людей, чья информация может попасть в ИИ-систему.</div><div class="choices" data-q="q18"></div></div>
+          <div class="q"><div class="qtext"><span>19</span>Я задумываюсь, не может ли решение ИИ оказаться несправедливым, предвзятым или поставить кого-то в невыгодное положение.</div><div class="choices" data-q="q19"></div></div>
+          <div class="q"><div class="qtext"><span>20</span>Я различаю ситуации, где ИИ может помочь принять решение, и ситуации, где окончательное решение и ответственность должны оставаться за человеком.</div><div class="choices" data-q="q20"></div></div>
+        </div>
+        <div class="legend-row"><span>редко / не уверен(а)</span><span>уверенно / системно</span></div>
+      </div>
+    </section>
+  </form>
+
+  <section class="summary" id="summary">
+    <h2>Ваш профиль</h2>
+    <p class="intro">Итог появится только после ответов на все 20 утверждений. Смотрите прежде всего не на общий балл, а на форму профиля: какие компетенции уже сильны, а какие стоит развивать дальше.</p>
+
+    <div class="locked" id="locked">Ответьте на все вопросы: <b id="counter">0 / 20</b></div>
+
+    <div class="results" id="results">
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="recs" id="recs"></div>
+      <div class="total" id="total"></div>
+      <div class="final-note">Это самодиагностика, а не стандартизированный тест. Низкий балл здесь — не «плохой результат», а подсказка, какое направление даст наибольший эффект от развития.</div>
+      <div class="actions">
+        <button type="button" class="btn light" onclick="window.print()">Распечатать / сохранить в PDF</button>
+        <button type="button" class="btn ghost" id="resetBtn">Пройти заново</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const labels = {
+  use:"Найти и использовать",
+  check:"Понять и проверить",
+  interact:"Взаимодействовать",
+  create:"Создать",
+  ethics:"Оценить последствия"
+};
+
+const recs = {
+  use:{
+    low:"Начните с постановки задачи до выбора инструмента. Тренируйте выбор между ИИ, поиском, официальными источниками и экспертами. Отдельно обратите внимание на то, какие данные вы передаёте сервисам.",
+    mid:"У вас уже есть рабочие привычки, но стоит сделать их системными: заранее определять цель, критерии результата и подходящий источник или инструмент.",
+    high:"Сильная зона. Следующий шаг — переносить эту логику в учебные задания: учить учащихся сначала формулировать задачу, а затем осознанно выбирать инструмент."
+  },
+  check:{
+    low:"Сосредоточьтесь на проверяемости: отделяйте факт от интерпретации, ищите первоисточники, перепроверяйте цифры, цитаты и ссылки. Не используйте уверенный тон ответа как признак достоверности.",
+    mid:"Навык проверки уже формируется. Усильте привычку задавать четыре вопроса: кто создал, зачем, на чём основано и чего не хватает.",
+    high:"Сильная зона. Следующий шаг — учить учащихся не просто «проверять факт», а оценивать качество доказательств, контекст, ограничения и возможную предвзятость."
+  },
+  interact:{
+    low:"Обратите внимание на то, как алгоритмы и ИИ меняют взаимодействие между людьми. Продумывайте роли в групповой работе и не позволяйте ИИ заменять обсуждение, аргументацию и вклад участников.",
+    mid:"У вас есть понимание роли ИИ во взаимодействии. Стоит усилить практики, которые делают вклад каждого участника видимым и помогают выходить за пределы персонализированной информационной среды.",
+    high:"Сильная зона. Следующий шаг — проектировать задания, где ИИ поддерживает совместное мышление, но ключевые решения остаются предметом человеческого обсуждения."
+  },
+  create:{
+    low:"Начните с трёх ориентиров: цель, аудитория, авторский вклад. Не принимайте первый сгенерированный результат как готовый продукт — анализируйте, перерабатывайте и объясняйте собственные решения.",
+    mid:"Вы уже используете ИИ как инструмент создания. Усильте прозрачность: что сделал человек, что предложил ИИ и когда аудитории важно сообщить об использовании генеративных инструментов.",
+    high:"Сильная зона. Следующий шаг — учить учащихся видеть авторство как принятие содержательных решений, а не только как самостоятельное написание текста."
+  },
+  ethics:{
+    low:"Сделайте обязательной паузу перед использованием результата ИИ: кого затронет решение, какие данные передаются, возможна ли несправедливость и кто несёт ответственность за последствия.",
+    mid:"Этическая рефлексия уже присутствует. Стоит сделать её более системной: приватность, согласие, справедливость, прозрачность и человеческий контроль должны учитываться заранее, а не после проблемы.",
+    high:"Сильная зона. Следующий шаг — вводить эти вопросы в учебные ситуации и обсуждать не только «можно ли это сделать», но и «стоит ли это делать и кто отвечает за результат»."
+  }
+};
+
+function level(score){
+  if(score<=7) return ["Зона внимания","low"];
+  if(score<=11) return ["Развивающаяся компетенция","mid"];
+  if(score<=14) return ["Уверенная зона","high"];
+  return ["Сильная сторона","high"];
+}
+
+document.querySelectorAll(".choices").forEach((box)=>{
+  const q=box.dataset.q;
+  [1,2,3,4].forEach(v=>{
+    const id=q+"_"+v;
+    box.insertAdjacentHTML("beforeend",
+      `<div class="choice">
+        <input type="radio" id="${id}" name="${q}" value="${v}">
+        <label for="${id}">${v}</label>
+      </div>`);
+  });
+});
+
+const form=document.getElementById("diag");
+const progress=document.getElementById("progress");
+const counter=document.getElementById("counter");
+const locked=document.getElementById("locked");
+const results=document.getElementById("results");
+const resultGrid=document.getElementById("resultGrid");
+const recBox=document.getElementById("recs");
+const total=document.getElementById("total");
+
+function update(){
+  const checked=[...form.querySelectorAll("input[type=radio]:checked")];
+  const count=checked.length;
+  counter.textContent=`${count} / 20`;
+  progress.style.width=(count/20*100)+"%";
+
+  if(count<20){
+    locked.style.display="block";
+    results.style.display="none";
+    return;
+  }
+
+  const scores={use:0,check:0,interact:0,create:0,ethics:0};
+  document.querySelectorAll(".section-card").forEach(card=>{
+    const area=card.dataset.area;
+    card.querySelectorAll("input:checked").forEach(i=>scores[area]+=Number(i.value));
+  });
+
+  locked.style.display="none";
+  results.style.display="block";
+
+  resultGrid.innerHTML="";
+  recBox.innerHTML="";
+  let totalScore=0;
+  Object.entries(scores).forEach(([key,score])=>{
+    totalScore+=score;
+    const [lvl,tier]=level(score);
+    resultGrid.insertAdjacentHTML("beforeend",
+      `<div class="result"><div class="name">${labels[key]}</div><div class="score">${score}<span style="font-size:15px;color:#94a3b8"> / 16</span></div><div class="level">${lvl}</div></div>`);
+    recBox.insertAdjacentHTML("beforeend",
+      `<div class="rec"><strong>${labels[key]} — ${lvl}</strong><p>${recs[key][tier]}</p></div>`);
+  });
+
+  const weakest=Object.entries(scores).sort((a,b)=>a[1]-b[1])[0];
+  const strongest=Object.entries(scores).sort((a,b)=>b[1]-a[1])[0];
+
+  total.innerHTML=`<b>Общий результат: ${totalScore} / 80</b>
+  <div style="margin-top:8px;color:#dbe3ec;line-height:1.5">
+    Самая сильная зона: <strong>${labels[strongest[0]]}</strong>.
+    Наибольший потенциал роста сейчас: <strong>${labels[weakest[0]]}</strong>.
+    Начните не с попытки «поднять общий балл», а с одной конкретной привычки из рекомендации к этой компетенции.
+  </div>`;
+
+  setTimeout(()=>document.getElementById("summary").scrollIntoView({behavior:"smooth",block:"start"}),120);
+}
+form.addEventListener("change",update);
+
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  form.reset(); update(); window.scrollTo({top:0,behavior:"smooth"});
+});
+
+if(window.matchMedia("(pointer:fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  document.querySelectorAll(".section-card,.hero").forEach(card=>{
+    card.addEventListener("mousemove",e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`perspective(1100px) rotateX(${(-y*1.8).toFixed(2)}deg) rotateY(${(x*1.8).toFixed(2)}deg) translateY(-2px)`;
+    });
+    card.addEventListener("mouseleave",()=>card.style.transform="");
+  });
+}
+
+update();
+</script>
+</body>
+</html>
